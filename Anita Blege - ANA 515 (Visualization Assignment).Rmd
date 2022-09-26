@@ -1,0 +1,103 @@
+---
+title: "Anita Blege - Week 5 (Visualizations Activity)"
+author: "Anita Blege"
+date: "2022-09-24"
+output:
+  word_document: default
+  html_document:
+    theme:
+      bootswatch: minty
+---
+```{r setup, include = FALSE}
+#install.packages("ggcorrplot")
+library(ggplot2)
+library(dplyr)
+library(bslib)
+library(tidyverse)
+library(knitr)
+library(ggcorrplot)
+library(hrbrthemes)
+library(corrplot)
+
+```
+
+```{r, include = TRUE}
+masculinity_survey <- read.csv('https://github.com/fivethirtyeight/data/blob/master/masculinity-survey/raw-responses.csv?raw=true')
+```
+
+
+The visualizations below help us with basic exploration of the masculinity survey data.
+
+
+#rename some columns using dplyr to make the df more readable
+
+```{r, echo = FALSE}
+masculinity_survey<- masculinity_survey%>% 
+rename (how_masculine_do_you_feel = q0001, importance_of_being_seen_As_masculine = q0002, unhealthy_societal_pressure = q0005, employment_status = q0009,marital_status = q0024, sexual_orientation = q0026, race = q0028, education_level = q0029)
+```
+
+
+```{r, include = FALSE}
+masculinity_survey<- masculinity_survey%>%
+  
+select (how_masculine_do_you_feel, importance_of_being_seen_As_masculine, unhealthy_societal_pressure, employment_status, marital_status, sexual_orientation, race, education_level)
+```
+
+
+
+```{r, include = TRUE}
+masculinity_survey_sub<- select (masculinity_survey, how_masculine_do_you_feel, unhealthy_societal_pressure, employment_status, marital_status, sexual_orientation, race, education_level)
+```
+
+
+
+Masculinity 
+
+
+```{r, echo=TRUE}
+masculinity_survey %>%
+ggplot(aes(fct_infreq(how_masculine_do_you_feel)%>%fct_rev())) + geom_bar(color = 'green') + coord_flip() + labs(x="Masculinity")
+```
+
+
+Unhealthy Societal Pressure 
+
+
+```{r, echo=TRUE}
+masculinity_survey %>%
+ggplot(aes(fct_infreq(unhealthy_societal_pressure)%>%fct_rev())) + geom_bar(color = 'pink') + labs(x="Unhealthy Societal Pressure ")
+```
+
+
+Employment Status 
+
+
+```{r, echo=TRUE}
+masculinity_survey %>%
+ggplot(aes(fct_infreq(employment_status)%>%fct_rev())) + geom_bar(color = 'blue') + coord_flip() + labs(x="Employment Status")
+```
+
+Education Level
+
+```{r, echo=TRUE}
+masculinity_survey %>%
+ggplot(aes(fct_infreq(education_level)%>%fct_rev())) + geom_bar(color = 'yellow')+ coord_flip() + labs(x="Education Level")
+```
+
+Marital Status
+
+```{r, echo=TRUE}
+masculinity_survey %>%
+ggplot(aes(fct_infreq(marital_status)%>%fct_rev())) + geom_bar(color = 'red') + labs(x="Marital Status")
+```
+
+
+Sexual Orientation
+
+
+```{r, echo=TRUE}
+masculinity_survey %>%
+ggplot(aes(fct_infreq(sexual_orientation)%>%fct_rev())) + geom_bar(color = 'brown') + labs(x= "Sexual Orientation")
+```
+
+
